@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HRA signature generator</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ember.js/1.9.0/ember.min.js"></script>
+    <script type="text/javascript">
+
+        // Author Gareth Fox
+        // email grf@enablehr.com.au
+
+        $(document).on('ready', function(){
+            window.App = Ember.Application.create();
+
+            App.Router.map(function() {
+                this.resource('home', { path: '/' });
+            });
+            App.HomeRoute = Ember.Route.extend({
+                model: function() {
+                    return {
+                        name: 'YOUR NAME',
+                        email: 'abc',
+                        position: 'Position Title',
+                        phone: '+61 000 000 0000',
+                        location: 'Sydney',
+                        support: 'https://support.hrassured.com.au/hc/en-us',
+                        website: 'http://hrassured.com.au/',
+                        locations: ['Sydney', 'Melbourne', 'Brisbane']
+                    };
+                }
+            });
+            App.HomeController = Ember.ObjectController.extend({
+                image: function () {
+                    if (this.get('location') == 'Sydney') {
+                        return 'https://www.hracloud.com.au/static/images/email-signature/HRA_Email Signature_Sydney.jpg';
+                    }
+                    if (this.get('location') == 'Brisbane') {
+                        return 'https://www.hracloud.com.au/static/images/email-signature/HRA_Email Signature_Brisbane.jpg';
+                    }
+                    return 'https://www.hracloud.com.au/static/images/email-signature/HRA_Email Signature_Melbourne.jpg';
+                }.property('location'),
+                mailto: function() {
+                    return 'mailto:' + this.get('email') + '@hrassured.com.au';
+                }.property('email'),
+                mailFull: function() {
+                    return this.get('email') + '@hrassured.com.au';
+                }.property('email')
+            });
+        });
+
+    </script>
+    <style type="text/css">
+        #sig {
+            margin: 70px 0;
+        }
+    </style>
+</head>
+<body>
+<script type="text/x-handlebars" data-template-name="home">
+<form>
+    <table style="width: 450px;">
+        <tr>
+            <td>
+                <label for="name">Your name</label>
+            </td>
+            <td>
+                {{input valueBinding="name" id="name"}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="email">Your email initials</label>
+            </td>
+            <td>
+                {{input valueBinding="email" id="email"}}
+            </td>
+        </tr>
+        <tr>
+            <td style="padding-top: 20px;">
+                <label for="position">Your position</label>
+            </td>
+            <td style="padding-top: 20px;">
+                {{input valueBinding="position" id="position"}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="phone">Phone number</label>
+            </td>
+            <td>
+                {{input valueBinding="phone" id="phone"}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="mobile">Mobile</label>
+            </td>
+            <td>
+                {{input valueBinding="mobile" id="mobile" placeholder="optional"}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="location">Location</label>
+            </td>
+            <td>
+                {{view "select" valueBinding="location" id="location" content=locations}}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+	            <p>Enter your details then copy the signature below</p>
+                <!--button style="float:right" {{action update on="click"}}>Update</button-->
+            </td>
+        </tr>
+
+    </table>
+</form>
+<div id="sig">
+
+    <table width="476px">
+        <tr>
+            <td>
+                <p>
+                    <a {{bind-attr href="mailto"}} target="_blank" style="font-size: 11pt;font-family: Calibri, Arial, sans-serif;font-weight: bold;color:#5d3d8c;">{{name}}</a><br />
+                    <span style="font-size: 11pt;font-family: Calibri, Arial, sans-serif;font-weight: bold;">{{position}}</span><br />
+                    <span style="font-size: 11pt;font-family: Calibri, Arial, sans-serif;font-weight: bold;">Phone &nbsp;</span><span style="font-size: 11pt;font-family: Calibri, Arial, sans-serif;">{{phone}}</span><br />
+                    {{#if mobile}}
+                    <span style="font-size: 11pt;font-family: Calibri, Arial, sans-serif;font-weight: bold;">Mobile &nbsp;</span><span style="font-size: 11pt;font-family: Calibri, Arial, sans-serif;">{{mobile}}</span><br />
+                    {{/if}}
+                </p>
+                <p style="padding-top: 15px;">
+                    <a {{bind-attr href=website}} target="_blank"><img border="0" width="476" height="100" {{bind-attr src=image}} alt="HRA_Email Signature"></a>
+                </p>
+                <div style="background: #0E4C8C;font-family: Calibri, Arial, sans-serif;font-size: 18px;color:#FFF;text-align:center;padding: 10px;">
+                    <span style="display: block;">Need help? <a style='color:#FFF;' {{bind-attr href=support}}>Visit our Knowledge Base</a></span>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <p style="font-family: Calibri, Arial, sans-serif;font-size:9.0pt;color:#1d81b6">
+        Warning: This Communication is private and confidential. By the use of email over the Internet, HR Assured Pty Limited is not waiving confidentiality or any other rights
+        extending over the email content and of any attachment(s) thereto. If you have received this message in error please notify the sender by reply email and then delete the message from your computer. Any unauthorised form of reproduction, disclosure or dissemination
+        of this message or any attachment is strictly prohibited. HR Assured Pty Limited does not make any warranty as to the confidentiality, reliability or speed of email communications or any attached documents and disclaims all liability for the proper and complete
+        transmission of any information and /or any delay in receipt. Before opening any attachment, please check them for viruses and defects. Although reasonable precautions are taken, HR Assured Pty Limited does not warrant this transmission or attachments are
+        free from viruses or similar malicious code and does not accept liability for any consequences to the recipient consequent upon opening or using this e-mail. Thank you.
+    </p>
+
+</div>
+</script>
+
+</body>
+</html>

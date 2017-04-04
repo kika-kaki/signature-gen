@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>React! React! React!</title>
+  <script src="https://unpkg.com/react@15.3.2/dist/react.js"></script>
+  <script src="https://unpkg.com/react-dom@15.3.2/dist/react-dom.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+</head>
+<body>
+  <div id="container"></div>
+  <script type="text/babel">
+    var destination = document.querySelector("#container");
+
+    class SignatureGenerator extends React.Component {
+      constructor(props) {
+        super(props);
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleImageSource = this.handleImageSource.bind(this);
+
+        this.location = {
+          'sydney': 'https://www.hracloud.com.au/static/images/email-signature/HRA_Email Signature_Sydney.jpg',
+          'brisbane': 'https://www.hracloud.com.au/static/images/email-signature/HRA_Email Signature_Brisbane.jpg',
+          'melbourne': 'https://www.hracloud.com.au/static/images/email-signature/HRA_Email Signature_Melbourne.jpg'
+        };
+
+        this.state = {
+          name: 'Your Name', 
+          position: 'Position Title',
+          email: 'abc',
+          phone: '+61 222 333 55',
+          mobile: 'optional',
+          imgSource: this.location['sydney'],
+          support: 'https://support.hrassured.com.au/hc/en-us',
+        };
+      }
+
+      render() {
+        return (
+          <div>
+            <p><input type="text" name="name" onChange={this.handleInputChange} placeholder={this.state.name} /></p>
+            <p><input type="text" name="position" onChange={this.handleInputChange} placeholder={this.state.position} /></p>
+            <p><input type="text" name="mobile" onChange={this.handleInputChange} placeholder={this.state.mobile} /></p>
+            <p><input type="text" name="phone" onChange={this.handleInputChange} placeholder={this.state.phone} /></p>
+            <p><input type="text" name="email" onChange={this.handleInputChange} placeholder={this.state.email} /></p>
+            <p>
+              <select name="imgSource" onChange={this.handleImageSource} >
+                <option value="sydney">Sydney</option>
+                <option value="brisbane">Brisbane</option>
+                <option value="melbourne">Melbourne</option>
+              </select>
+            </p>
+            <div id="signature">
+              <table width="476px">
+                  <tbody>
+                    <tr>
+                        <td>
+                            <p style={{margin: '0px'}}>
+                                <a href={"mailto:" + this.state.email + "@hrassured.com.au"} target="_blank" style={{fontSize: '11pt', fontFamily: 'Calibri, Arial, sans-serif', fontWeight: 'bold', color: '#5d3d8c'}}>{this.state.name}</a><br />
+                                <span style={{fontSize: '11pt', fontFamily: 'Calibri, Arial, sans-serif', fontWeight: 'bold'}}>
+                                  {this.state.position}
+                                </span>
+                            </p>
+                            <p style={{margin: '0px'}}>
+                                <span style={{fontSize: '11pt', fontFamily: 'Calibri, Arial, sans-serif', fontWeight: 'bold'}}>Phone &nbsp;</span>
+                                <span style={{fontSize: '11pt', fontFamily: 'Calibri, Arial, sans-serif'}}>{this.state.phone}</span>
+                            </p>
+                            <p style={{margin: '0px'}}> 
+                                <span style={{fontSize: '11pt', fontFamily: 'Calibri, Arial, sans-serif', fontWeight: 'bold'}}>Mobile &nbsp;</span>
+                                <span style={{fontSize: '11pt', fontFamily: 'Calibri, Arial, sans-serif'}}>{this.state.mobile}</span>
+                            </p>
+                            <p style={{paddingTop: '15px'}}>
+                                <a href="website" target="_blank">
+                                <img style={{border: '0', width: '476px', height: '100px'}} src={this.state.imgSource} alt="HRA_Email Signature"/>
+                                </a>
+                            </p>
+                            <div style={{background: '#0E4C8C', fontFamily: 'Calibri, Arial, sans-serif', fontSize: '18px', color:'#FFF', textAlign: 'center', padding: '10px'}}>
+                                <span style={{display: 'block'}}>Need help? <a style={{color:'#FFF'}} href={this.state.support}>Visit our Knowledge Base</a></span>
+                            </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                </table>
+                <p style={{fontFamily: 'Calibri, Arial, sans-serif', fontSize: '9.0pt', color:'#1d81b6'}}>
+                    Warning: This Communication is private and confidential. By the use of email over the Internet, HR Assured Pty Limited is not waiving confidentiality or any other rights
+                    extending over the email content and of any attachment(s) thereto. If you have received this message in error please notify the sender by reply email and then delete the message from your computer. Any unauthorised form of reproduction, disclosure or dissemination
+                    of this message or any attachment is strictly prohibited. HR Assured Pty Limited does not make any warranty as to the confidentiality, reliability or speed of email communications or any attached documents and disclaims all liability for the proper and complete
+                    transmission of any information and /or any delay in receipt. Before opening any attachment, please check them for viruses and defects. Although reasonable precautions are taken, HR Assured Pty Limited does not warrant this transmission or attachments are
+                    free from viruses or similar malicious code and does not accept liability for any consequences to the recipient consequent upon opening or using this e-mail. Thank you.
+                </p>
+              </div>
+          </div>
+        );
+      }
+
+      
+
+      handleInputChange(e) {
+        const target = e.target;
+        const value = target.value;
+        const name = target.name;
+        console.log('location???', this.state);
+        this.setState({
+          [name]: value
+        });
+      }
+
+      handleImageSource(e) {
+        this.setState({
+          imgSource: this.location[e.target.value]
+        });
+      }
+    }
+
+    ReactDOM.render(<SignatureGenerator />, destination);
+  </script>
+</body>
+</html>
